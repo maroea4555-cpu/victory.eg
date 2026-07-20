@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="icon" type="image/png" href="images/logo.png" />
+    <title>Victory — La Victoria Sera Nuestra</title>
+  </head>
+  <body>
+    <header class="headerContainer">
+      <div class="header">
+        <a href="index.html" class="logo" aria-label="Victory home">
+          <img class="logoMark" src="images/logo-transparent.png" alt="Victory logo" />
+          <span class="logoText">VICTORY</span>
+        </a>
+        <nav class="headerLinks" aria-label="Main navigation">
+          <a href="index.html">Home</a>
+          <a href="#shop">Our Shop</a>
+          <a href="#offers">Offers</a>
+          <a href="#contact">Contact Us</a>
+          <button class="cartBtn" type="button" onclick="openCart()" aria-label="Open cart">
+            Cart <span id="cartCount">0</span>
+          </button>
+          <button class="btn" type="button" onclick="openModal()">Sign In</button>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="landingPageContainer">
+        <div class="landingPage">
+          <div class="leftSide">
+            <p class="welcome">@victory.eg_</p>
+            <h1 class="slogan">La Victoria Sera Nuestra</h1>
+            <p class="description">
+              Oversized box-fit tees, polos and ringer tees in heavyweight interlock fabric, plus
+              100% cotton street pants. Built loose, finished clean, made for the street.
+            </p>
+            <p class="offerBanner">🔥 Mix &amp; match bundles — save up to 550 EGP. See offers below.</p>
+            <div class="searchBar">
+              <input type="text" id="searchInput" placeholder="Search products" />
+              <button class="btn searchBtn" type="button" onclick="searchProducts()">Search</button>
+            </div>
+            <div id="searchResults" aria-live="polite"></div>
+          </div>
+          <div class="imageContainer">
+            <img src="images/basic-black.jpg" alt="Victory basic box fit t-shirt" />
+          </div>
+        </div>
+      </section>
+
+      <section class="offersContainer" id="offers">
+        <span>Offers</span>
+        <div class="offersHeader">
+          <h2>Bundle &amp; Save</h2>
+        </div>
+        <div class="offersGrid" id="offersGrid"></div>
+      </section>
+
+      <section class="trendingContainer" id="shop">
+        <span>Trending</span>
+        <div class="trendingHeader">
+          <h2>Trending Fashion</h2>
+          <button class="btn" type="button" onclick="document.getElementById('searchInput').focus()">View All</button>
+        </div>
+        <div class="trendingCard" id="productGrid"></div>
+      </section>
+
+      <section class="brandStrip">
+        <div class="brandStripInner">
+          <h2>Victory</h2>
+          <p>Heavyweight interlock cotton, oversized box-fit silhouettes, and 100% cotton street pants — built for everyday wear, finished with clean stitching and true-to-size comfort.</p>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footerContainer" id="contact">
+      <div class="footer">
+        <p class="footerBrand">VIC<span>TOR</span>Y</p>
+        <p class="footerContact">WhatsApp / Call: <a href="https://wa.me/201277565441" target="_blank" rel="noopener">+20 127 756 5441</a></p>
+        <p class="footerContact">Instagram: <a href="https://instagram.com/victory.eg_" target="_blank" rel="noopener">@victory.eg_</a></p>
+        <p class="footerCopy">Copyright &copy; 2026 Victory. All rights reserved.</p>
+        <p class="footerCopy">Designed by Karas Essam</p>
+      </div>
+    </footer>
+
+    <div class="overlay" id="overlay" onclick="closeOnOverlay(event)">
+      <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+        <button class="closeBtn" type="button" onclick="closeModal()" aria-label="Close">&times;</button>
+        <h2 id="modalTitle">Admin Login</h2>
+        <p class="modalSub">Login to add products and edit prices on this browser.</p>
+
+        <div class="field">
+          <label for="adminUser">Username</label>
+          <input id="adminUser" type="text" placeholder="admin" />
+        </div>
+        <div class="field">
+          <label for="adminPassword">Password</label>
+          <input id="adminPassword" type="password" placeholder="Admin password" />
+        </div>
+
+        <button class="btn modalSubmit" type="button" onclick="loginAdmin()">Login</button>
+        <p class="orderMessage" id="adminLoginMessage" aria-live="polite"></p>
+      </div>
+    </div>
+
+    <div class="overlay cartOverlay" id="cartOverlay" onclick="closeCartOnOverlay(event)">
+      <aside class="cartPanel" role="dialog" aria-modal="true" aria-labelledby="cartTitle">
+        <div class="cartHeader">
+          <h2 id="cartTitle">Shopping Cart</h2>
+          <button class="closeBtn" type="button" onclick="closeCart()" aria-label="Close">&times;</button>
+        </div>
+        <div class="cartItems" id="cartItems"></div>
+        <div class="cartActions">
+          <button class="btn clearCartBtn" type="button" onclick="clearCart()">Clear Cart</button>
+          <button class="btn orderBtn" type="button" onclick="openCheckout()">Order Now</button>
+          <button class="btn" type="button" onclick="closeCart()">Continue Shopping</button>
+        </div>
+      </aside>
+    </div>
+
+    <div class="overlay" id="checkoutOverlay" onclick="closeCheckoutOnOverlay(event)">
+      <form class="checkoutModal" id="checkoutForm" onsubmit="submitOrder(event)">
+        <button class="closeBtn" type="button" onclick="closeCheckout()" aria-label="Close">&times;</button>
+        <h2>Complete Order</h2>
+        <p class="modalSub">Cash on delivery. We'll confirm your order on WhatsApp.</p>
+
+        <div class="field">
+          <label for="customerName">Full Name</label>
+          <input id="customerName" type="text" placeholder="Your name" required />
+        </div>
+        <div class="field">
+          <label for="customerPhone">Phone Number</label>
+          <input id="customerPhone" type="tel" placeholder="01xxxxxxxxx" inputmode="numeric" pattern="01[0-9]{9}" maxlength="11" minlength="11" required />
+        </div>
+        <div class="field">
+          <label for="customerAddress">Delivery Address</label>
+          <input id="customerAddress" type="text" placeholder="City, street, house number" required />
+        </div>
+
+        <div class="orderSummary" id="orderSummary"></div>
+
+        <p class="paymentTitle">Payment Method</p>
+        <div class="paymentOptions">
+          <label class="paymentOption">
+            <input type="radio" name="paymentMethod" value="cash" checked onchange="togglePaymentFields(); renderOrderSummary();" />
+            Cash on Delivery
+          </label>
+          <label class="paymentOption">
+            <input type="radio" name="paymentMethod" value="instapay" onchange="togglePaymentFields(); renderOrderSummary();" />
+            Full Instapay
+          </label>
+        </div>
+
+        <div class="instapayFields" id="instapayFields">
+          <div class="instapayCard">
+            <p class="instapayTitle">Instapay Number</p>
+            <p class="instapayNumber" id="instapayNumber">01277565441</p>
+            <p class="instapayHint">Send the full amount to this number, then attach the transfer screenshot in the WhatsApp chat after placing your order.</p>
+          </div>
+        </div>
+
+        <button class="btn modalSubmit" type="submit">Send Order on WhatsApp</button>
+        <p class="orderMessage" id="orderMessage" aria-live="polite"></p>
+      </form>
+    </div>
+    <div class="overlay adminOverlay" id="adminOverlay" onclick="closeAdminOnOverlay(event)">
+      <section class="adminPanel" role="dialog" aria-modal="true" aria-labelledby="adminTitle">
+        <div class="cartHeader">
+          <h2 id="adminTitle">Admin Products</h2>
+          <button class="closeBtn" type="button" onclick="closeAdminPanel()" aria-label="Close">&times;</button>
+        </div>
+        <div class="adminGrid">
+          <div class="field">
+            <label for="adminProductName">Product Name</label>
+            <input id="adminProductName" type="text" placeholder="basic box fit - new color" />
+          </div>
+          <div class="field">
+            <label for="adminProductType">Type</label>
+            <input id="adminProductType" type="text" value="Basic Box Fit T-Shirt" />
+          </div>
+          <div class="field">
+            <label for="adminProductPrice">Price</label>
+            <input id="adminProductPrice" type="number" value="549" />
+          </div>
+          <div class="field">
+            <label for="adminProductImg">Image file or URL</label>
+            <input id="adminProductImg" type="text" placeholder="images/new-shirt.jpg" />
+          </div>
+        </div>
+        <button class="btn modalSubmit" type="button" onclick="saveAdminProduct()">Save Product</button>
+        <div class="adminProducts" id="adminProducts"></div>
+
+        <h2 style="margin-top:24px;">Offer Prices</h2>
+        <div class="adminGrid" id="adminOffers"></div>
+        <button class="btn modalSubmit" type="button" onclick="saveAdminOffers()">Save Offer Prices</button>
+      </section>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+    <script src="shop.js"></script>
+    <script>
+      function renderProducts(items = getProducts()) {
+        const grid = document.getElementById('productGrid');
+        grid.innerHTML = items.map((product) => `
+          <article class="card">
+            <a href="${productUrl(product)}" class="cardImageLink">
+              <img src="images/${product.img}" alt="${product.name}" />
+            </a>
+            <div class="cardInfo">
+              <div class="cardName">
+                <p>${product.type}</p>
+                <h3>${product.name}</h3>
+                <div class="priceRow">
+                  ${product.oldPrice ? `<span class="oldPrice">${formatMoney(product.oldPrice)}</span>` : ''}
+                  <span class="productPrice">${formatMoney(product.price || 549)}</span>
+                </div>
+              </div>
+              <a href="${productUrl(product)}" class="icon" aria-label="View ${product.name}">
+                <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#c8102e" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="7" y1="17" x2="17" y2="7"></line><polyline points="7 7 17 7 17 17"></polyline></svg>
+              </a>
+            </div>
+          </article>
+        `).join('');
+      }
+
+      function renderOffers() {
+        const grid = document.getElementById('offersGrid');
+        if (!grid) return;
+        grid.innerHTML = getOffers().map((offer) => `
+          <div class="offerCard">
+            <span class="offerTag">${offer.tag}</span>
+            <h3>${offer.title}</h3>
+            <div class="offerPrice"><strong>${formatMoney(offer.price)}</strong>${offer.oldPrice ? `<span class="oldPrice">${formatMoney(offer.oldPrice)}</span>` : ''}</div>
+          </div>
+        `).join('');
+      }
+
+      function searchProducts() {
+        const query = document.getElementById('searchInput').value.toLowerCase().trim();
+        const resultsDiv = document.getElementById('searchResults');
+        const products = getProducts();
+
+        if (!query) {
+          resultsDiv.innerHTML = '';
+          renderProducts();
+          return;
+        }
+
+        const found = products.filter((product) =>
+          product.name.toLowerCase().includes(query) || product.type.toLowerCase().includes(query)
+        );
+        renderProducts(found);
+        resultsDiv.innerHTML = found.length === 0
+          ? '<p class="noResult">No products found.</p>'
+          : found.map((product) => `
+            <a class="resultItem" href="${productUrl(product)}">
+              <span class="resultType">${product.type}</span>
+              <span class="resultName">${product.name}</span>
+            </a>
+          `).join('');
+      }
+
+      document.addEventListener('DOMContentLoaded', function () {
+        Promise.all([initProducts(), initOffers()]).then(function () {
+          renderProducts();
+          renderOffers();
+        });
+        updateCartCount();
+        document.getElementById('searchInput').addEventListener('keydown', function (event) {
+          if (event.key === 'Enter') searchProducts();
+        });
+        document.getElementById('customerPhone').addEventListener('input', function () {
+          this.value = this.value.replace(/[^0-9]/g, '').slice(0, 11);
+        });
+      });
+    </script>
+  </body>
+</html>
